@@ -30,21 +30,23 @@ defmodule KelimeWeb.KelimeLive do
     guess = socket.assigns[:guess]
     previous_guesses = socket.assigns[:previous_guesses]
     correct_word = socket.assigns[:correct_word]
+    allowed_words = KelimeWeb.WordLists.get_allowed_words(socket.assigns[:language])
     cond do
-      String.length(guess) != 5 -> report_error(socket, :error, "Not enough letters!")
+      String.length(guess) != 5 -> report_error(socket, :error, "Ikke nok bokstaver!")
+      !MapSet.member?(allowed_words, guess) -> report_error(socket, :error, "Ikke et ord!")
       guess == correct_word ->
         {:noreply,
         socket
         |> advance_guess()
         |> assign(:game_running, false)
-        |> put_flash(:info, "Congratulations")
+        |> put_flash(:info, "Gratulerer, du vant!")
         }
       length(previous_guesses) == @numguesses-1 ->
         {:noreply,
         socket
         |> advance_guess()
         |> assign(:game_running, false)
-        |> put_flash(:info, "Game over")}
+        |> put_flash(:info, "Beklager, du tapte :/")}
       true ->
         {:noreply,
         socket
@@ -85,15 +87,26 @@ defmodule KelimeWeb.KelimeLive do
     {:noreply, socket |> clear_flash()}
   end
 
+  def word_of_the_day(language) do
+    date = Date.utc_today()
+    answer_words = KelimeWeb.WordLists.get_answer_words(language)
+    :rand.seed(:exsss, {date.day, date.month, date.year})
+    Enum.random(answer_words)
+  end
+
   def mount(_params, _, socket) do
 
-    correct_word = "bilde"
-    game_running = true
+    language = "nb"
+
+    correct_word = word_of_the_day(language)
+
+
     socket2 = socket
+    |> assign(:language, language)
     |> assign(:previous_guesses, [])
     |> assign(:guess, "")
     |> assign(:wordlen, @wordlen)
-    |> assign(:game_running, game_running)
+    |> assign(:game_running, true)
     |> assign(:numguesses, @numguesses)
     |> assign(:correct_word, correct_word)
 
