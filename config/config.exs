@@ -9,7 +9,8 @@ import Config
 
 # Configures the endpoint
 config :kelime, KelimeWeb.Endpoint,
-  url: [host: "localhost"],
+#  url: [host: "localhost"],
+  url: [host: "kelime.gigalixirapp.com", port: 443, scheme: "https"],
   render_errors: [view: KelimeWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Kelime.PubSub,
   live_view: [signing_salt: "j73Zh1m7"]
