@@ -13,17 +13,10 @@
     <header>
       <section class="container">
         <nav class="bg-gray-800">
-          <div class="relative flex items-center justify-between h-16">
-            <div class="absolute inset-y-0 left-0 flex items-center">
-              <h2 class="text-2xl font-bold leading-7 text-gray-200 sm:text-3xl sm:truncate inset-10">
+          <div class="relative grid grid-cols-1 items-center h-16">
+              <h2 class="text-2xl text-center font-bold leading-7 text-gray-200 sm:text-3xl sm:truncate inset-10">
                 Kelime
               </h2>
-              <ul class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-700">
-                <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-                  <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-                <% end %>
-              </ul>
-            </div>
           </div>
         </nav>
       </section>
