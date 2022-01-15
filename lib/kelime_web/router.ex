@@ -12,6 +12,7 @@ defmodule KelimeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_live_flash
   end
 
   scope "/", KelimeWeb do

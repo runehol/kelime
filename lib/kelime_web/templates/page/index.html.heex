@@ -1,20 +1,45 @@
-  <div class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
-  <div class="shrink-0">
-  </div>
+  <div class="p-5 max-w-sm mx-auto bg-white flex items-center space-x-4">
   <div>
-    <div class="text-xl font-medium text-black">Kelime</div>
-    <p class="text-slate-500">Hi</p>
+    <div class="text-xl font-medium text-black text-center">Kelime</div>
   </div>
+  </div>
+  <div class="p-5 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4" phx-window-keydown="update_guess">
 
-  Current time: <%= @time %>
-  <table>
-    <%= for row <- 0..6-1 do %>
-      <tr>
-        <%= for column <- 0..5-1 do %>
-          <td><%= Integer.to_string(row) <> "." <> Integer.to_string(column) %></td>
+  <div class="grid grid-cols-5 gap-y-3 gap-x-10">
+    <% correct_letters = MapSet.new(String.graphemes(@correct_word)) %>
+    <%= for row <- 0..@numguesses-1 do %>
+      <% 
+        {show_response, raw_value} = cond do
+          row < length(@previous_guesses) -> {true, Enum.at(@previous_guesses, row)}
+          row == length(@previous_guesses) -> {false, @guess}
+          true -> {false, ""}
+        end
+        value = String.slice(raw_value <> "              ", 0..@wordlen-1)
+       %>
+        <%= for column <- 0..@wordlen-1 do %>
+          <%
+            c = String.slice(value, column..column)
+            element_class = "text-xl border block text-center align-text-middle align-middle w-8 h-8 font-mono font-medium "
+            element_class = element_class <> if show_response do
+              cond do
+                c == String.slice(@correct_word, column..column) -> " text-white bg-green-600"
+                MapSet.member?(correct_letters, c) -> " text-white bg-amber-400"
+                true -> " text-white bg-gray-400"
+
+                
+              end
+            else
+              cond do 
+                c != " " -> " bg-white  border-black text-black"
+                true -> " bg-white border-gray-400 text-black"
+              end
+            end
+           %>
+          <div class={element_class}>
+            <%= String.upcase(c) %>
+          </div>
         <% end %>
-      </tr>
     <% end %>
-  </table>
+  </div>
 </div>
 
