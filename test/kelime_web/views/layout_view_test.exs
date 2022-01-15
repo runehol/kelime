@@ -1,5 +1,5 @@
-defmodule OrdleWeb.LayoutViewTest do
-  use OrdleWeb.ConnCase, async: true
+defmodule KelimeWeb.LayoutViewTest do
+  use KelimeWeb.ConnCase, async: true
 
   # When testing helpers, you may want to import Phoenix.HTML and
   # use functions such as safe_to_string() to convert the helper

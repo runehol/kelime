@@ -1,12 +1,12 @@
-defmodule OrdleWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :ordle
+defmodule KelimeWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :kelime
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_ordle_key",
+    key: "_kelime_key",
     signing_salt: "aEVIqCcY"
   ]
 
@@ -18,7 +18,7 @@ defmodule OrdleWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :ordle,
+    from: :kelime,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 
@@ -45,5 +45,5 @@ defmodule OrdleWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug OrdleWeb.Router
+  plug KelimeWeb.Router
 end

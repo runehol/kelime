@@ -1,10 +1,10 @@
-defmodule OrdleWeb.OrdleLive do
+defmodule KelimeWeb.KelimeLive do
   # If you generated an app with mix phx.new --live,
   # the line below would be: use MyAppWeb, :live_view
   use Phoenix.LiveView
 
   def render(assigns) do
-    Phoenix.View.render(OrdleWeb.PageView, "index.html", assigns)
+    Phoenix.View.render(KelimeWeb.PageView, "index.html", assigns)
     #~H"""
     #Current time: <%= @time %>
     #"""

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "Ordle", suffix: " · Phoenix Framework" %>
+    <%= live_title_tag assigns[:page_title] || "Kelime", suffix: " · Phoenix Framework" %>
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
@@ -16,7 +16,7 @@
           <div class="relative flex items-center justify-between h-16">
             <div class="absolute inset-y-0 left-0 flex items-center">
               <h2 class="text-2xl font-bold leading-7 text-gray-200 sm:text-3xl sm:truncate inset-10">
-                Ordle
+                Kelime
               </h2>
               <ul class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-700">
                 <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>

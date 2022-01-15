@@ -1,5 +1,5 @@
-defmodule OrdleWeb.PageController do
-  use OrdleWeb, :controller
+defmodule KelimeWeb.PageController do
+  use KelimeWeb, :controller
 
   def index(conn, _params) do
     render(conn, "index.html")

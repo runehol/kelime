@@ -8,10 +8,10 @@
 import Config
 
 # Configures the endpoint
-config :ordle, OrdleWeb.Endpoint,
+config :kelime, KelimeWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: OrdleWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Ordle.PubSub,
+  render_errors: [view: KelimeWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: Kelime.PubSub,
   live_view: [signing_salt: "j73Zh1m7"]
 
 # Configures the mailer
@@ -21,7 +21,7 @@ config :ordle, OrdleWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :ordle, Ordle.Mailer, adapter: Swoosh.Adapters.Local
+config :kelime, Kelime.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false

@@ -1,12 +1,12 @@
-defmodule OrdleWeb do
+defmodule KelimeWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use OrdleWeb, :controller
-      use OrdleWeb, :view
+      use KelimeWeb, :controller
+      use KelimeWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,19 +19,19 @@ defmodule OrdleWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: OrdleWeb
+      use Phoenix.Controller, namespace: KelimeWeb
 
       import Plug.Conn
-      import OrdleWeb.Gettext
-      alias OrdleWeb.Router.Helpers, as: Routes
+      import KelimeWeb.Gettext
+      alias KelimeWeb.Router.Helpers, as: Routes
     end
   end
 
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/ordle_web/templates",
-        namespace: OrdleWeb
+        root: "lib/kelime_web/templates",
+        namespace: KelimeWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -45,7 +45,7 @@ defmodule OrdleWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {OrdleWeb.LayoutView, "live.html"}
+        layout: {KelimeWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
     end
@@ -80,7 +80,7 @@ defmodule OrdleWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import OrdleWeb.Gettext
+      import KelimeWeb.Gettext
     end
   end
 
@@ -95,9 +95,9 @@ defmodule OrdleWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import OrdleWeb.ErrorHelpers
-      import OrdleWeb.Gettext
-      alias OrdleWeb.Router.Helpers, as: Routes
+      import KelimeWeb.ErrorHelpers
+      import KelimeWeb.Gettext
+      alias KelimeWeb.Router.Helpers, as: Routes
     end
   end
 

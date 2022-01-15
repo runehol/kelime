@@ -1,5 +1,5 @@
-defmodule OrdleWeb.ErrorView do
-  use OrdleWeb, :view
+defmodule KelimeWeb.ErrorView do
+  use KelimeWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

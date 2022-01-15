@@ -1,6 +1,6 @@
-defmodule Ordle do
+defmodule Kelime do
   @moduledoc """
-  Ordle keeps the contexts that define your domain
+  Kelime keeps the contexts that define your domain
   and business logic.
 
   Contexts are also responsible for managing your data, regardless

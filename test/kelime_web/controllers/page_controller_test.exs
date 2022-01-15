@@ -1,5 +1,5 @@
-defmodule OrdleWeb.PageControllerTest do
-  use OrdleWeb.ConnCase
+defmodule KelimeWeb.PageControllerTest do
+  use KelimeWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

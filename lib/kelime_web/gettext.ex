@@ -1,11 +1,11 @@
-defmodule OrdleWeb.Gettext do
+defmodule KelimeWeb.Gettext do
   @moduledoc """
   A module providing Internationalization with a gettext-based API.
 
   By using [Gettext](https://hexdocs.pm/gettext),
   your module gains a set of macros for translations, for example:
 
-      import OrdleWeb.Gettext
+      import KelimeWeb.Gettext
 
       # Simple translation
       gettext("Here is the string to translate")
@@ -20,5 +20,5 @@ defmodule OrdleWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :ordle
+  use Gettext, otp_app: :kelime
 end

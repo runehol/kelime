@@ -1,4 +1,4 @@
-defmodule OrdleWeb.ErrorHelpers do
+defmodule KelimeWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -39,9 +39,9 @@ defmodule OrdleWeb.ErrorHelpers do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(OrdleWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(KelimeWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(OrdleWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(KelimeWeb.Gettext, "errors", msg, opts)
     end
   end
 end
