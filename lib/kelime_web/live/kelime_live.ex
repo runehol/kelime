@@ -10,6 +10,49 @@ defmodule KelimeWeb.KelimeLive do
     Phoenix.View.render(KelimeWeb.PageView, "index.html", assigns)
   end
 
+  def report_error(socket, type, message) do
+    Process.send_after(self(), :clear_flash, 1500)
+    {:noreply,
+      socket
+      |> put_flash(type, message)
+    }
+  end
+
+  defp advance_guess(socket) do
+    guess = socket.assigns[:guess]
+    previous_guesses = socket.assigns[:previous_guesses]
+    socket
+    |> assign(:previous_guesses, previous_guesses ++ [guess])
+    |> assign(:guess, "")
+  end
+
+  def handle_event("update_guess", %{"key" => "Enter"}, socket) do
+    guess = socket.assigns[:guess]
+    previous_guesses = socket.assigns[:previous_guesses]
+    correct_word = socket.assigns[:correct_word]
+    cond do
+      String.length(guess) != 5 -> report_error(socket, :error, "Not enough letters!")
+      guess == correct_word ->
+        {:noreply,
+        socket
+        |> advance_guess()
+        |> assign(:game_running, false)
+        |> put_flash(:info, "Congratulations")
+        }
+      length(previous_guesses) == @numguesses-1 ->
+        {:noreply,
+        socket
+        |> advance_guess()
+        |> assign(:game_running, false)
+        |> put_flash(:info, "Game over")}
+      true ->
+        {:noreply,
+        socket
+        |> advance_guess()}
+    end
+
+  end
+
   def handle_event("update_guess", %{"key" => "Backspace"}, socket) do
     guess = socket.assigns[:guess]
 
@@ -21,24 +64,6 @@ defmodule KelimeWeb.KelimeLive do
 
   end
 
-  def handle_event("update_guess", %{"key" => "Enter"}, socket) do
-    guess = socket.assigns[:guess]
-    previous_guesses = socket.assigns[:previous_guesses]
-    if String.length(guess) == 5 do
-      {:noreply,
-      socket
-      |> assign(:previous_guesses, previous_guesses ++ [guess])
-      |> assign(:guess, "")
-    }
-    else
-      IO.puts("Attempting flash")
-      {:noreply,
-      socket
-      |> put_flash(:error, "Not enough letters!")
-    }
-    end
-
-  end
 
   def handle_event("update_guess", %{"key" => k}, socket) do
     guess = socket.assigns[:guess]
@@ -52,14 +77,23 @@ defmodule KelimeWeb.KelimeLive do
 
   end
 
+  def handle_event("game_finished", _, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_info(:clear_flash, socket) do
+    {:noreply, socket |> clear_flash()}
+  end
 
   def mount(_params, _, socket) do
 
     correct_word = "bilde"
+    game_running = true
     socket2 = socket
     |> assign(:previous_guesses, [])
     |> assign(:guess, "")
     |> assign(:wordlen, @wordlen)
+    |> assign(:game_running, game_running)
     |> assign(:numguesses, @numguesses)
     |> assign(:correct_word, correct_word)
 

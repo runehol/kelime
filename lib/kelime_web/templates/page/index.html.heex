@@ -1,9 +1,23 @@
-  <div class="p-5 max-w-sm mx-auto bg-white flex items-center space-x-4">
+  <div class="p-5 max-w-sm mx-auto bg-white grid grid-cols-1 items-stretch space-x-4">
   <div>
     <div class="text-xl font-medium text-black text-center">Kelime</div>
+
+    <div class="h-20">
+  <p class="alert alert-info" role="alert"
+    phx-click="lv:clear-flash"
+    phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+
+  <p class="alert alert-danger" role="alert"
+    phx-click="lv:clear-flash"
+    phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+    </div>
   </div>
+
+
   </div>
-  <div class="p-5 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4" phx-window-keydown="update_guess">
+  
+  <% key_handler = if @game_running, do: "update_guess", else: "game_finished" %>
+  <div class="p-5 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4" phx-window-keydown={key_handler}>
 
   <div class="grid grid-cols-5 gap-y-3 gap-x-10">
     <% correct_letters = MapSet.new(String.graphemes(@correct_word)) %>
