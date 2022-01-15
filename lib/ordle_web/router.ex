@@ -17,7 +17,8 @@ defmodule OrdleWeb.Router do
   scope "/", OrdleWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+#    get "/", PageController, :index
+    live "/", OrdleLive
 
   end
 
