@@ -18,11 +18,40 @@ defmodule KelimeWeb.KelimeLive do
     }
   end
 
+  defp classify(w, c) do
+    word = String.graphemes(w)
+    correct = String.graphemes(c)
+    classification = Enum.zip(word, correct) |> Enum.map(fn {w, c} ->
+      cond do
+        w == c -> {:correct, w}
+        true -> {:incorrect, w}
+      end
+    end)
+
+    freqs = Enum.zip(classification, correct)
+    |> Enum.filter(fn {{:incorrect, _}, _} -> true
+                      _ -> false
+    end)
+    |> Enum.map(fn {_, c} -> c end)
+    |> Enum.frequencies()
+
+    {rev_list, _} = Enum.reduce(classification, {[], freqs}, fn {classification, w}, {so_far, f} ->
+      cond do
+        classification == :correct -> {[{classification, w}|so_far], f}
+        Map.get(f, w, 0) > 0 -> {[{:wrong_pos, w}|so_far], Map.update!(f, w, &(&1-1))}
+        true -> {[{:incorrect, w}|so_far], f}
+      end
+    end)
+    Enum.reverse(rev_list)
+  end
+
   defp advance_guess(socket) do
     guess = socket.assigns[:guess]
     previous_guesses = socket.assigns[:previous_guesses]
+    correct_word = socket.assigns[:correct_word]
+
     socket
-    |> assign(:previous_guesses, previous_guesses ++ [guess])
+    |> assign(:previous_guesses, previous_guesses ++ [classify(guess, correct_word)])
     |> assign(:guess, "")
   end
 

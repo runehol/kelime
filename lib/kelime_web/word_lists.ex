@@ -14649,6 +14649,7 @@ defmodule KelimeWeb.WordLists do
 
   @answer_words_nb @allowed_words_nb
 
+  @spec get_answer_words(String.t()) :: MapSet.t()
   def get_answer_words(language) do
     case language do
       "nb" -> @answer_words_nb
@@ -14656,6 +14657,7 @@ defmodule KelimeWeb.WordLists do
     end
   end
 
+  @spec get_allowed_words(String.t()) :: MapSet.t()
   def get_allowed_words(language) do
     case language do
       "nb" -> @allowed_words_nb

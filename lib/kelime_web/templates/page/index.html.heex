@@ -19,33 +19,25 @@
   <div class="p-5 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4" phx-window-keydown={key_handler}>
 
   <div class="grid grid-cols-5 gap-y-3 gap-x-10">
-    <% correct_letters = MapSet.new(String.graphemes(@correct_word)) %>
     <%= for row <- 0..@numguesses-1 do %>
       <% 
-        {show_response, raw_value} = cond do
-          row < length(@previous_guesses) -> {true, Enum.at(@previous_guesses, row)}
-          row == length(@previous_guesses) -> {false, @guess}
-          true -> {false, ""}
+        value = cond do
+          row < length(@previous_guesses) -> Enum.at(@previous_guesses, row)
+          row == length(@previous_guesses) -> Enum.zip(Stream.cycle([:guess]), String.graphemes(@guess))
+          true -> []
         end
-        value = String.slice(raw_value <> "              ", 0..@wordlen-1)
+        
        %>
         <%= for column <- 0..@wordlen-1 do %>
           <%
-            c = String.slice(value, column..column)
+            {classification, c} = Enum.at(value, column, {:not_given, " "})
             element_class = "text-xl border block text-center align-text-middle align-middle w-8 h-8 font-mono font-medium "
-            element_class = element_class <> if show_response do
-              cond do
-                c == String.slice(@correct_word, column..column) -> " text-white bg-green-600"
-                MapSet.member?(correct_letters, c) -> " text-white bg-amber-400"
-                true -> " text-white bg-gray-400"
-
-                
-              end
-            else
-              cond do 
-                c != " " -> " bg-white  border-black text-black"
-                true -> " bg-white border-gray-400 text-black"
-              end
+            element_class = element_class <> case classification do
+              :correct         -> " text-white bg-green-600"
+              :wrong_pos       -> " text-white bg-amber-400"
+              :incorrect       -> " text-white bg-gray-400"
+              :guess           -> " bg-white  border-black text-black"
+              :not_given       -> " bg-white border-gray-400 text-black"
             end
            %>
           <div class={element_class}>
