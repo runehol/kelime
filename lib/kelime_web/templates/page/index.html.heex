@@ -19,29 +19,53 @@
   <div class="p-5 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4" phx-window-keydown={key_handler}>
 
   <div class="grid grid-cols-5 gap-y-3 gap-x-10">
-    <%= for row <- 0..@numguesses-1 do %>
-      <% 
-        value = cond do
-          row < length(@previous_guesses) -> Enum.at(@previous_guesses, row)
-          row == length(@previous_guesses) -> Enum.zip(Stream.cycle([:guess]), String.graphemes(@guess))
-          true -> []
-        end
-        
-       %>
-        <%= for column <- 0..@wordlen-1 do %>
+    <%= for value <- @previous_guesses do %>
+        <%= for {classification, c} <- value do %>
           <%
-            {classification, c} = Enum.at(value, column, {:not_given, " "})
             element_class = "text-xl border block text-center align-text-middle align-middle w-8 h-8 font-mono font-medium "
             element_class = element_class <> case classification do
               :correct         -> " text-white bg-green-600"
               :wrong_pos       -> " text-white bg-amber-400"
               :incorrect       -> " text-white bg-gray-400"
-              :guess           -> " bg-white  border-black text-black"
-              :not_given       -> " bg-white border-gray-400 text-black"
             end
            %>
           <div class={element_class}>
             <%= String.upcase(c) %>
+          </div>
+        <% end %>
+    <% end %>
+
+    <% 
+      guess_elems = if length(@previous_guesses) < @numguesses do
+        String.graphemes(String.slice(@guess <> "     ", 0..@wordlen-1))
+      else
+        []
+      end
+      %>
+
+
+      <%= for c <- guess_elems do %>
+      <%
+        element_class = "text-xl border block text-center align-text-middle align-middle w-8 h-8 font-mono font-medium "
+        element_class = element_class <> case c do
+            " "       -> " bg-white border-gray-400 text-black"
+            _         -> " bg-white  border-black text-black"
+            end 
+         %>
+          <div class={element_class}>
+            <%= String.upcase(c) %>
+          </div>
+      <% end %>
+
+    <%= for _row <- Enum.take(1..@numguesses, max(0, @numguesses - 1 - length(@previous_guesses))) do %>
+
+
+        <%= for _column <- 0..@wordlen-1 do %>
+          <%
+            element_class = "text-xl border block text-center align-text-middle align-middle w-8 h-8 font-mono font-medium " <> " bg-white border-gray-400 text-black"
+           %>
+          <div class={element_class}>
+            <%= String.upcase(" ") %>
           </div>
         <% end %>
     <% end %>
